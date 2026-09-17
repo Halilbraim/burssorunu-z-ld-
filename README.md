@@ -31,10 +31,10 @@ Projeyi yerelinizde çalıştırmak için harici bir kütüphaneye veya sunucu k
 
 ```bash
 # Depoyu klonlayın
-git clone https://github.com/KULLANICI_ADINIZ/bursradar.git
+git clone https://github.com/Halilbraim/burssorunu-z-ld-.git
 
 # Proje dizinine girin
-cd bursradar
+cd burssorunu-z-ld-
 
 # index.html dosyasını doğrudan tarayıcınızda açın veya yerel sunucu başlatın:
 # Python ile:
