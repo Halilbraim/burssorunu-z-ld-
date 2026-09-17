@@ -1,0 +1,9 @@
+# IDE & Sistem Dosyaları
+.DS_Store
+Thumbs.db
+*.log
+
+# Antigravity / Gemini dahili dosyaları
+.gemini/
+.agents/
+scratch/

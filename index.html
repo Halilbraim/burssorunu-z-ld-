@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BursRadar | Üniversite Bursları & Akıllı Çakışma Tespit Platformu</title>
+  <meta name="description" content="Üniversite öğrencileri için akıllı burs arama motoru. KYK çakışması, başka vakıf bursu kuralı, bölüm şartları ve not ortalamasına göre sana özel bursları anında filtrele!">
+  
+  <!-- Modern Fontlar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Glow Arka Planı -->
+  <div class="ambient-background">
+    <div class="glow-orb orb-primary"></div>
+    <div class="glow-orb orb-secondary"></div>
+    <div class="grid-layer"></div>
+  </div>
+
+  <!-- Üst Navigasyon -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="#" class="brand-logo">
+          <span class="logo-radar-icon">
+            <span class="radar-sweep"></span>
+            🎯
+          </span>
+          <div class="brand-text">
+            <span class="brand-name">Burs<span class="brand-accent">Radar</span></span>
+            <span class="brand-tagline">Akıllı Öğrenci Burs Motoru</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="nav-actions">
+        <!-- Karşılaştırma Sayacı Düğmesi -->
+        <button id="openCompareBtn" class="nav-btn" title="Seçilen bursları karşılaştır">
+          <span class="icon">⚖️</span>
+          <span class="btn-text">Karşılaştır</span>
+          <span id="compareBadge" class="counter-badge">0</span>
+        </button>
+
+        <!-- Favoriler Düğmesi -->
+        <button id="openFavoritesBtn" class="nav-btn" title="Kaydedilen Burslar">
+          <span class="icon">⭐</span>
+          <span class="btn-text">Favoriler</span>
+          <span id="favoritesBadge" class="counter-badge">0</span>
+        </button>
+
+        <!-- Profil Sihirbazını Aç/Kapa Düğmesi -->
+        <button id="toggleWizardBtn" class="primary-btn pulse-action">
+          <span class="icon">🧙‍♂️</span>
+          <span>Profilimi Eşle</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-content">
+
+    <!-- AKILLI ÖĞRENCİ PROFİL SİHİRBAZI (Açılır / Kapanır Panel) -->
+    <section id="wizardSection" class="wizard-card glass-panel">
+      <div class="wizard-header">
+        <div class="wizard-title-group">
+          <span class="wizard-badge">⚡ 30 Saniyede Sana Özel Analiz</span>
+          <h2 class="wizard-title">Akıllı Uygunluk &amp; Çakışma Sihirbazı</h2>
+          <p class="wizard-desc">
+            Profilini doldur; sistem hangi bursların bölümüne uygun olduğunu, <strong>KYK veya başka burslarınla çakışıp çakışmadığını</strong> kırmızı çizgileriyle göstersin.
+          </p>
+        </div>
+        <button id="resetProfileBtn" class="ghost-btn" title="Bilgileri Temizle">
+          <span>🔄 Sıfırla</span>
+        </button>
+      </div>
+
+      <form id="profileForm" class="wizard-grid">
+        <!-- Kapsamlı Bölüm Seçimi -->
+        <div class="form-group">
+          <label for="profDepartment">Öğrenim Gördüğün Bölüm / Alan</label>
+          <select id="profDepartment" class="custom-select">
+            <option value="all">🌟 Tüm Bölümler (Genel / Kısıtlamasız)</option>
+            
+            <optgroup label="🩺 Sağlık &amp; Tıp Bilimleri">
+              <option value="Tıp">Tıp Fakültesi</option>
+              <option value="Diş Hekimliği">Diş Hekimliği Fakültesi</option>
+              <option value="Eczacılık">Eczacılık Fakültesi</option>
+              <option value="Hemşirelik">Hemşirelik &amp; Ebelik</option>
+              <option value="Fizyoterapi ve Rehabilitasyon">Fizyoterapi ve Rehabilitasyon</option>
+              <option value="Beslenme ve Diyetetik">Beslenme ve Diyetetik</option>
+              <option value="Veterinerlik">Veterinerlik Fakültesi</option>
+            </optgroup>
+
+            <optgroup label="💻 Mühendislik &amp; Teknoloji">
+              <option value="Bilgisayar Mühendisliği">Bilgisayar Mühendisliği</option>
+              <option value="Yazılım Mühendisliği">Yazılım Mühendisliği</option>
+              <option value="Elektrik-Elektronik Müh.">Elektrik &amp; Elektronik Mühendisliği</option>
+              <option value="Makine Mühendisliği">Makine Mühendisliği</option>
+              <option value="Endüstri Mühendisliği">Endüstri Mühendisliği</option>
+              <option value="Kimya Mühendisliği">Kimya Mühendisliği</option>
+              <option value="İnşaat Mühendisliği">İnşaat Mühendisliği</option>
+              <option value="Havacılık ve Uzay Müh.">Havacılık, Uzay &amp; Uçak Mühendisliği</option>
+              <option value="Yapay Zeka Mühendisliği">Yapay Zeka Mühendisliği</option>
+              <option value="Mekatronik">Mekatronik Mühendisliği</option>
+              <option value="Biyomedikal Mühendisliği">Biyomedikal Mühendisliği</option>
+              <option value="Metalurji ve Malzeme Müh.">Metalurji ve Malzeme Mühendisliği</option>
+              <option value="Çevre Mühendisliği">Çevre Mühendisliği</option>
+              <option value="Harita Mühendisliği">Harita &amp; Geomatik Mühendisliği</option>
+              <option value="Petrol ve Doğalgaz Mühendisliği">Petrol, Doğalgaz &amp; Maden Müh.</option>
+              <option value="Gıda Mühendisliği">Gıda Mühendisliği</option>
+              <option value="Tekstil Mühendisliği">Tekstil Mühendisliği</option>
+            </optgroup>
+
+            <optgroup label="🔬 Temel Bilimler (Fen Fakültesi)">
+              <option value="Fizik">Fizik</option>
+              <option value="Kimya">Kimya</option>
+              <option value="Biyoloji">Biyoloji</option>
+              <option value="Matematik">Matematik</option>
+              <option value="Moleküler Biyoloji">Moleküler Biyoloji ve Genetik</option>
+            </optgroup>
+
+            <optgroup label="⚖️ Hukuk">
+              <option value="Hukuk">Hukuk Fakültesi</option>
+            </optgroup>
+
+            <optgroup label="📈 İktisadi, İdari &amp; Sosyal Bilimler">
+              <option value="İktisat">İktisat / Ekonomi</option>
+              <option value="İşletme">İşletme</option>
+              <option value="Siyaset Bilimi">Siyaset Bilimi ve Kamu Yönetimi</option>
+              <option value="Uluslararası İlişkiler">Uluslararası İlişkiler</option>
+              <option value="Maliye">Maliye</option>
+              <option value="Uluslararası Ticaret ve Lojistik">Uluslararası Ticaret ve Lojistik</option>
+              <option value="Psikoloji">Psikoloji</option>
+              <option value="Sosyoloji">Sosyoloji &amp; Felsefe</option>
+              <option value="Tarih">Tarih &amp; Sanat Tarihi</option>
+              <option value="Türk Dili ve Edebiyatı">Türk Dili ve Edebiyatı</option>
+            </optgroup>
+
+            <optgroup label="🏛️ Mimarlık &amp; Tasarım">
+              <option value="Mimarlık">Mimarlık</option>
+              <option value="Şehir ve Bölge Planlama">Şehir ve Bölge Planlama</option>
+              <option value="Moda Tasarımı">Moda ve Tekstil Tasarımı</option>
+              <option value="Gastronomi ve Mutfak Sanatları">Gastronomi ve Mutfak Sanatları</option>
+            </optgroup>
+
+            <optgroup label="📚 Eğitim &amp; Öğretmenlik">
+              <option value="Rehberlik ve Psikolojik Danışmanlık">Rehberlik ve Psikolojik Danışmanlık (PDR)</option>
+              <option value="Özel Eğitim Öğretmenliği">Özel Eğitim Öğretmenliği</option>
+              <option value="Okul Öncesi Öğretmenliği">Okul Öncesi Öğretmenliği</option>
+              <option value="Eğitim">Tüm Öğretmenlik Programları</option>
+            </optgroup>
+
+            <optgroup label="🕌 İlahiyat &amp; İslami İlimler">
+              <option value="İlahiyat Fakültesi">İlahiyat Fakültesi / İslami İlimler</option>
+            </optgroup>
+
+            <optgroup label="📰 İletişim, Medya &amp; Sanat">
+              <option value="Gazetecilik">Gazetecilik, Medya &amp; RTS</option>
+              <option value="Müzik">Müzik, Konservatuvar &amp; Güzel Sanatlar</option>
+              <option value="Spor Bilimleri">Spor Bilimleri (BESYO)</option>
+            </optgroup>
+
+            <optgroup label="🌾 Ziraat &amp; Çevre">
+              <option value="Ziraat Fakültesi">Ziraat Mühendisliği / Tarım</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <!-- Üniversite Türü & Seçimi -->
+        <div class="form-group">
+          <label for="profUniType">Üniversite Statüsü</label>
+          <select id="profUniType" class="custom-select">
+            <option value="state">🏛️ Devlet Üniversitesi</option>
+            <option value="private_full">🎓 Vakıf Üniversitesi (%100 Tam Burslu)</option>
+            <option value="private_partial">🏢 Vakıf Üniversitesi (Ücretli / Kısmi Burslu)</option>
+          </select>
+        </div>
+
+        <!-- Sınıf Seviyesi -->
+        <div class="form-group">
+          <label for="profClass">Sınıfın</label>
+          <select id="profClass" class="custom-select">
+            <option value="1" selected>🌱 1. Sınıf (Yeni Kayıt / GNO Aranmaz)</option>
+            <option value="prep">📖 Hazırlık Sınıfı (GNO Aranmaz)</option>
+            <option value="2">🎓 2. Sınıf (Ara Sınıf)</option>
+            <option value="3">🎓 3. Sınıf (Ara Sınıf)</option>
+            <option value="4">🎓 4. Sınıf (Mezuniyet Sınıfı)</option>
+            <option value="5">🩺 5-6. Sınıf (Tıp &amp; Diş)</option>
+          </select>
+        </div>
+
+        <!-- Not Ortalaması (GNO) -->
+        <div class="form-group" id="gpaContainer">
+          <div class="label-with-val">
+            <label for="profGpa" id="gpaLabel">Not Ortalaması (GNO)</label>
+            <span id="gpaDisplay" class="val-tag">GNO Aranmaz (1. Sınıf)</span>
+          </div>
+          <input type="range" id="profGpa" min="1.50" max="4.00" step="0.05" value="3.00" class="custom-slider" disabled>
+          <p id="gpaNotice" style="font-size: 0.74rem; color: #34d399; margin-top: 0.35rem;">
+            ✨ 1. sınıf ve hazırlıkta GNO aranmaz; vakıflar YKS başarı sıranızı değerlendirir.
+          </p>
+        </div>
+
+        <!-- Mevcut Burs Durumu (Çakışma Kontrolü İçin En Kritik Alan) -->
+        <div class="form-group full-width">
+          <label class="section-sub-label">Şu Anda Aldığın Mevcut Burslar (Çakışma Kontrolü)</label>
+          <div class="checkbox-cluster">
+            <label class="custom-checkbox-card">
+              <input type="checkbox" id="profHasKYK">
+              <span class="checkmark"></span>
+              <div class="check-text">
+                <strong>KYK Bursu veya Kredisi Alıyorum</strong>
+                <span>Devletten düzenli KYK ödemesi alanlar</span>
+              </div>
+            </label>
+
+            <label class="custom-checkbox-card">
+              <input type="checkbox" id="profHasOtherPrivate">
+              <span class="checkmark"></span>
+              <div class="check-text">
+                <strong>Başka Bir Özel Vakıf / Şirket Bursu Alıyorum</strong>
+                <span>Tek burs kuralı olan vakıfların uyarısı için</span>
+              </div>
+            </label>
+
+            <label class="custom-checkbox-card">
+              <input type="checkbox" id="profOnlyNonRepayable" checked>
+              <span class="checkmark"></span>
+              <div class="check-text">
+                <strong>Sadece Karşılıksız Bursları Göster</strong>
+                <span>Geri ödemeli veya mecburi hizmetli olanları ele</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </form>
+
+      <!-- Sihirbaz Hızlı Özet Barı -->
+      <div id="wizardSummaryBar" class="wizard-summary">
+        <div class="summary-match-info">
+          <span class="match-icon">🎯</span>
+          <div>
+            <strong id="matchCountText">Profilinize Göre Eşleşenler Hesaplanıyor...</strong>
+            <p id="matchSubText">Yukarıdaki kriterleri değiştirdiğinizde anında güncellenir.</p>
+          </div>
+        </div>
+        <button id="applyWizardBtn" class="glow-btn">
+          <span>Sonuçları Listele</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- HIZLI ARAMA & FİLTRELEME ARAÇ ÇUBUĞU -->
+    <section class="toolbar-section">
+      <div class="search-and-sort">
+        <!-- Canlı Arama Kutusu -->
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Burs adı, vakıf (TEV, Koç, TÜBİTAK), şehir veya bölüm ara..." autocomplete="off">
+          <button id="clearSearchBtn" class="clear-btn hidden" title="Aramayı temizle">&times;</button>
+        </div>
+
+        <!-- Sıralama Seçici -->
+        <div class="sort-box">
+          <label for="sortBySelect" class="sort-label">Sırala:</label>
+          <select id="sortBySelect" class="custom-select sort-select">
+            <option value="match_score">🎯 Akıllı Uygunluk Skoru</option>
+            <option value="amount_desc">💰 En Yüksek Aylık Tutar</option>
+            <option value="deadline_asc">⏳ Son Başvuru (Önce Kapananlar)</option>
+            <option value="min_gpa_asc">📚 En Düşük Not Şartı</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Kategori ve Çakışma Hızlı Filtre Butonları -->
+      <div class="filter-pills-bar">
+        <button class="filter-pill active" data-filter="all">Tümü (<span class="total-count-val">12</span>)</button>
+        <button class="filter-pill" data-filter="kyk-friendly">🟢 KYK Dostu</button>
+        <button class="filter-pill" data-filter="double-burs">✨ Çift Burs Serbest</button>
+        <button class="filter-pill" data-filter="muhendislik">💻 Mühendislik</button>
+        <button class="filter-pill" data-filter="tip">🩺 Sağlık &amp; Tıp</button>
+        <button class="filter-pill" data-filter="temel-bilimler">🔬 Temel Bilimler</button>
+        <button class="filter-pill" data-filter="high-amount">🔥 5.000 ₺ Üzeri</button>
+      </div>
+
+      <!-- Canlı Metrik Şeridi -->
+      <div class="metric-ribbon">
+        <div class="metric-item">
+          <span class="metric-num" id="statVisibleCount">12</span>
+          <span class="metric-lbl">Aktif Burs Gösteriliyor</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <span class="metric-num" id="statMaxAmount">9.500 ₺</span>
+          <span class="metric-lbl">Maksimum Aylık Destek</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <span class="metric-num text-success" id="statPerfectMatches">--</span>
+          <span class="metric-lbl">Profiline %100 Uyumlu</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- BURS KARTLARI GRİDİ -->
+    <section class="scholarships-container">
+      <div id="scholarshipsGrid" class="scholarships-grid">
+        <!-- Kartlar JavaScript tarafından dinamik render edilir -->
+      </div>
+
+      <!-- Boş Durum (Eşleşen Sonuç Yoksa) -->
+      <div id="noResultsState" class="empty-state glass-panel hidden">
+        <span class="empty-icon">🔎</span>
+        <h3>Kriterlerinize Uygun Burs Bulunamadı</h3>
+        <p>Arama filtrenizi genişletebilir veya profil sihirbazındaki şartları esnetebilirsiniz.</p>
+        <button id="resetAllFiltersBtn" class="primary-btn">Tüm Filtreleri Temizle</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================
+       MODAL 1: BURS DETAY & ÇAKIŞMA ŞARTLARI MODALI
+       ========================================================== -->
+  <div id="detailModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-box glass-panel">
+      <button class="modal-close-btn" id="closeDetailModalBtn">&times;</button>
+      
+      <div id="detailModalContent" class="modal-body">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 2: BURS KARŞILAŞTIRMA MODALI (SIDE-BY-SIDE)
+       ========================================================== -->
+  <div id="compareModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-box compare-modal-box glass-panel">
+      <div class="compare-header">
+        <div>
+          <h2>⚖️ Burs Karşılaştırma Matrisi</h2>
+          <p>Seçtiğin bursların şartlarını, tutarlarını ve çakışma kurallarını yan yana kıyasla.</p>
+        </div>
+        <button class="modal-close-btn" id="closeCompareModalBtn">&times;</button>
+      </div>
+      
+      <div class="compare-body" id="compareBody">
+        <!-- Karşılaştırma tablosu JS tarafından render edilir -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       ÇEKMECE: FAVORİ BURS LİSTESİ (DRAWER)
+       ========================================================== -->
+  <div id="favoritesDrawer" class="drawer-backdrop hidden">
+    <div class="drawer-content glass-panel">
+      <div class="drawer-header">
+        <h3>⭐ Kaydedilen Burslar (<span id="drawerCount">0</span>)</h3>
+        <button id="closeFavoritesDrawerBtn" class="icon-btn">&times;</button>
+      </div>
+      <div id="favoritesList" class="drawer-list">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </div>
+  </div>
+
+  <!-- BİLDİRİM TOASTI -->
+  <div id="toast" class="toast-popup" role="alert" aria-live="polite">
+    <span class="toast-emoji">✨</span>
+    <span id="toastMsg">İşlem tamamlandı</span>
+  </div>
+
+  <!-- Veritabanı ve Uygulama Betikleri -->
+  <script src="burslar-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
